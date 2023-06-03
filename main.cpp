@@ -18,8 +18,10 @@ int main() {
     const string systemOperacyjny = "nieznany";
 #endif
 
-    cout<< "[1] Wczytaj dane z wejscia konsolowego \n"
-        << "[2] Wczytaj dane z pliku \n";
+    powrot:
+    system("clear");
+    cout<< "[1] wczytaj dane z wejscia konsolowego \n"
+        << "[2] wczytaj dane z pliku \n";
 
     // wybor opcji wczytania danych
     int wybor;
@@ -39,6 +41,10 @@ int main() {
             maszyna.ustawTasme (tasma);
         }
 
+        cout << "podawaj w kolejnych liniach reguly przejsc maszyny Turinga" << endl;
+        cout << "przykladowa regula: q0 . -> q0 0 R" << endl;
+        cout << "linia z napisem START zakonczy wczytywanie" << endl;
+
         while (true) { // wczytanie kolejnych regul z konsoli
             getline (cin, regula);
             if (regula == "START") break;
@@ -48,6 +54,8 @@ int main() {
 
     }
     else if (wybor == 2) {
+        cout << "podaj sciezke do pliku z danymi wejsciowymi" << endl;
+
         string sciezka;
         cin >> sciezka;
 
@@ -74,12 +82,48 @@ int main() {
     }
 
     system("clear");
-    cout << "wczytana maszyna: " << endl;
+    cout << "wczytana maszyna:\n" << endl;
     cout << maszyna;
 
-    maszyna.uruchom();
-    cout << "stan maszyny po zadzialaniu: " << endl;
-    cout << maszyna;
+    cout << "\nczy uruchomic wczytana maszyne?\n" << endl << "[1] tak" << endl << "[2] nie, wczytaj jeszcze raz" << endl << "[3] wyjscie z programu" << endl;
+    cin >> wybor;
+
+    if (wybor == 1) {
+        maszyna.uruchom();
+    }
+    else if (wybor == 2) {
+        system("clear");
+        goto powrot;
+    }
+    else if (wybor == 3) {
+        return 0;
+    }
+    else {
+        cerr << "niepoprawny wybor" << endl;
+    }
+
+    cout << "[1] wyswietl historie w konsoli" << endl << "[2] zapisz historie do pliku" << endl << "[3] wyjdz z programu" << endl;
+    cin >> wybor;
+
+    if (wybor == 1) {
+        system("clear");
+        maszyna.getHistoria();
+    }
+
+    else if (wybor == 2) {
+        cout << "podaj nazwe pliku: ";
+        string sciezka;
+        cin >> sciezka;
+        maszyna.zapiszOutputDoPliku(sciezka);
+    }
+
+    else if (wybor == 3) {
+        return 0;
+    }
+
+    else {
+        cerr << "niepoprawny wybor" << endl;
+    }
 
     return 0;
 }

@@ -1,5 +1,47 @@
 #include "maszynaTuringa.h"
 
+void MaszynaTuringa::wyswietl(int indeks, string aktualnyStan, char aktualnySymbol) {
+    system("clear");
+    string doZapisu = aktualnyStan;
+    doZapisu += "\t";
+    for (int i = 0; i < tasma.length(); i++) {
+
+        if (i == indeks) {
+            printf("\033[33m[%c]\033[0m", tasma[i]);
+            cout.flush();
+
+            doZapisu += "[";
+            doZapisu += tasma[i];
+            doZapisu += "]";
+        } else {
+            printf(" %c ", tasma[i]);
+            cout.flush();
+
+            doZapisu += " ";
+            doZapisu += tasma[i];
+            doZapisu += " ";
+        }
+    }
+    zapiszDoHistorii(doZapisu);
+
+    cout << endl << endl << endl;
+
+    for (auto& regula : reguly) {
+        if (regula.aktualnyStan == aktualnyStan && regula.aktualnySymbol == aktualnySymbol) {
+            printf( "\033[33m%s\t%c\t->\t%s\t%c\t%c\033[0m\n", regula.aktualnyStan.c_str(), regula.aktualnySymbol,
+                    regula.nastepnyStan.c_str(), regula.nowySymbol, regula.kierunekPrzejscia);
+            cout.flush();
+
+        }
+        else {
+            cout << regula.aktualnyStan << "\t" << regula.aktualnySymbol << "\t->\t"<< regula.nastepnyStan << "\t"
+                    << regula.nowySymbol << "\t" << regula.kierunekPrzejscia << endl;
+            cout.flush();
+        }
+    }
+
+}
+
 void MaszynaTuringa::zaladujReguly(istringstream &inputStream) {
     RegulaPrzejscia nowaRegula;
     string smietnik;
@@ -35,6 +77,10 @@ void MaszynaTuringa::uruchom() {
         }
 
         if (aktualnaRegula != nullptr) {
+
+            wyswietl(glowica, aktualnyStan, tasma[glowica]);
+            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
             aktualnyStan = aktualnaRegula->nastepnyStan;
             tasma[glowica] = aktualnaRegula->nowySymbol;
 
@@ -69,6 +115,28 @@ void MaszynaTuringa::uruchom() {
         cout << "aktualna tasma: " << tasma << endl;
     }
 
+    wyswietl(glowica, aktualnyStan, tasma[glowica]);
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    cout << endl;
+
+}
+
+void MaszynaTuringa::zapiszDoHistorii(string doZapisu) {
+    historia += doZapisu;
+    historia += "\n";
+}
+
+void MaszynaTuringa::zapiszOutputDoPliku(string sciezka) {
+    fstream plik;
+    plik.open(sciezka, ios::out);
+    if (!plik) {
+        cerr << "blad tworzenia pliku";
+    }
+    else {
+        plik << historia;
+        plik.close();
+        cout << "historia przejsc zapisana do pliku " << sciezka << endl;
+    }
 }
 
 void MaszynaTuringa::ustawTasme(const string& tasmaPoczatkowa) {
@@ -79,8 +147,15 @@ void MaszynaTuringa::dodajRegule (const RegulaPrzejscia& regula) {
     reguly.push_back(regula);
 }
 
+void MaszynaTuringa::getHistoria() {
+    cout << historia;
+}
+
 MaszynaTuringa::MaszynaTuringa() {
+    glowica = 0;
+    aktualnyStan = "q0";
     reguly.clear();
+    historia.clear();
 }
 
 ostream& operator << (ostream& os, const MaszynaTuringa& maszyna) {
