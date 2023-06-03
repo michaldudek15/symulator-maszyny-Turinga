@@ -15,7 +15,8 @@ void wyczyscKonsole () {
 
 void zasnij (int czas) {
     #if __linux__
-        sleep(czas/1000);
+        //usleep(czas);
+        this_thread::sleep_for(chrono::milliseconds(czas));
     #elif _WIN32
         Sleep(czas);
     #elif __APPLE__
