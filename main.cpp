@@ -113,7 +113,7 @@ int main() {
 
     if (wybor == 1) {
         wyczyscKonsole();
-        maszyna.getHistoria();
+        cout << maszyna.getHistoria();
     }
 
     else if (wybor == 2) {

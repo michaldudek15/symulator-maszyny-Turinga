@@ -50,7 +50,7 @@ public:
     void ustawTasme (const string& tasmaPoczatkowa);
     void dodajRegule (const RegulaPrzejscia& regula);
 
-    void getHistoria ();
+    string getHistoria ();
 
     MaszynaTuringa();
     friend std::ostream& operator << (std::ostream& os, const MaszynaTuringa& maszyna);

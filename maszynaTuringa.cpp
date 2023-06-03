@@ -162,8 +162,8 @@ void MaszynaTuringa::dodajRegule (const RegulaPrzejscia& regula) {
     reguly.push_back(regula);
 }
 
-void MaszynaTuringa::getHistoria() {
-    cout << historia;
+string MaszynaTuringa::getHistoria() {
+    return historia;
 }
 
 MaszynaTuringa::MaszynaTuringa() {
