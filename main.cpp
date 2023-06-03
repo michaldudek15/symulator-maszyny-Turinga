@@ -7,7 +7,13 @@ int main() {
     powrot:
     wyczyscKonsole();
 
+    cout << magenta << bold;
+    cout << "Witaj w symulatorze maszyny Turinga! \n";
+    cout << resetColor;
     cout << green;
+    cout << "wybierz opcje wczytania danych do maszyny: \n";
+    cout << resetColor;
+    cout << blue;
     cout<< "[1] wczytaj dane z wejscia konsolowego \n"
         << "[2] wczytaj dane z pliku \n";
     cout << resetColor;
@@ -23,7 +29,7 @@ int main() {
     if (wybor == 1) {
 
         { // ustawienie tasmy poczatkowej z konsoli
-            cout << green;
+            cout << yellow;
             cout << "podaj tasme startowa: " << endl;
             cout << resetColor;
 
@@ -33,10 +39,17 @@ int main() {
             maszyna.ustawTasme (tasma);
         }
 
-        cout << green;
-        cout << "\npodawaj w kolejnych liniach reguly przejsc maszyny Turinga" << endl;
-        cout << "przykladowa regula: q0 . -> q0 0 R" << endl;
-        cout << "linia z napisem START zakonczy wczytywanie" << endl;
+        cout << yellow;
+        cout << "\npodawaj w kolejnych liniach reguly przejsc maszyny Turinga:" << endl;
+        cout << resetColor;
+        cout << "[przykladowa regula: q0 . -> q0 0 R]" << endl;
+        cout << yellow;
+        cout << "linia z napisem";
+        cout << green << bold;
+        cout << " START ";
+        cout << resetColor;
+        cout << yellow;
+        cout << "zakonczy wczytywanie" << endl;
         cout << resetColor;
 
         while (true) { // wczytanie kolejnych regul z konsoli
@@ -48,7 +61,7 @@ int main() {
 
     }
     else if (wybor == 2) {
-        cout << green;
+        cout << yellow;
         cout << "podaj sciezke do pliku z danymi wejsciowymi" << endl;
         cout << resetColor;
 
@@ -81,13 +94,15 @@ int main() {
     cout << green;
     cout << "wczytana maszyna:\n" << endl;
     cout << resetColor;
-
     cout << blue;
     cout << maszyna;
     cout << resetColor;
 
     cout << green;
-    cout << "\nczy uruchomic wczytana maszyne?\n" << endl << "[1] tak" << endl << "[2] nie, wczytaj jeszcze raz" << endl << "[3] wyjscie z programu" << endl;
+    cout << "\nczy uruchomic wczytana maszyne?\n";
+    cout << resetColor;
+    cout << blue;
+    cout << "[1] tak" << endl << "[2] nie, wczytaj jeszcze raz" << endl << "[3] wyjscie z programu" << endl;
     cout << resetColor;
     cin >> wybor;
 
@@ -105,7 +120,7 @@ int main() {
         cerr << "niepoprawny wybor" << endl;
     }
 
-    cout << green;
+    cout << blue;
     cout << "[1] wyswietl historie w konsoli" << endl << "[2] zapisz historie do pliku" << endl << "[3] wyjdz z programu" << endl;
     cout << resetColor;
 

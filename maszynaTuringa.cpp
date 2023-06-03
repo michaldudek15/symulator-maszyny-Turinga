@@ -5,6 +5,7 @@ void wyczyscKonsole () {
         system("clear");
     #elif _WIN32
         system("cls");
+
     #elif __APPLE__
         system("clear");
     #else
@@ -26,7 +27,7 @@ void zasnij (int czas) {
 
 void MaszynaTuringa::wyswietl(int indeks, const string aktualnyStan, char aktualnySymbol) {
 
-    system("clear");
+    wyczyscKonsole();
     string doZapisu = aktualnyStan;
     doZapisu += "\t";
     for (int i = 0; i < tasma.length(); i++) {
@@ -139,7 +140,6 @@ void MaszynaTuringa::uruchom() {
             break;
         }
 
-        cout << "aktualna tasma: " << tasma << endl;
     }
 
     wyswietl(glowica, aktualnyStan, tasma[glowica]);
