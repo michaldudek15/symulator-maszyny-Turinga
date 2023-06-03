@@ -1,34 +1,6 @@
 // Michał Dudek
 // Maja Flaczek
-#include <iostream>
-#include <vector>
-#include <string>
-
-using namespace std;
-
-struct RegulaPrzejscia {
-    string aktualnyStan;
-    string aktualnySymbol;
-
-    string nastepnyStan;
-    string nowySymbol;
-    char kierunekPrzejscia;
-};
-
-class MaszynaTuringa {
-private:
-    vector<RegulaPrzejscia> reguly;
-    vector<string> tasma;
-    int glowica = 0;
-    string aktualnyStan = "q0";
-
-public:
-    void wyswietl (int indeks);
-    void uruchom ();
-    void zapiszInputDoPliku ();
-    void zapiszOutputDoPliku ();
-
-};
+#include "maszynaTuringa.h"
 
 int main() {
 
@@ -45,6 +17,64 @@ int main() {
     cout << "nie rozpoznano systemu operacyjnego" << endl;
     const string systemOperacyjny = "nieznany";
 #endif
+
+    cout<< "[1] Wczytaj dane z wejscia konsolowego \n"
+        << "[2] Wczytaj dane z pliku \n";
+
+    // wybor opcji wczytania danych
+    int wybor;
+    cin >> wybor;
+
+    // inicjalizacja maszyny
+    MaszynaTuringa maszyna;
+    string regula, smietnik;
+
+    if (wybor == 1) {
+
+        { // ustawienie tasmy poczatkowej
+            cout << "podaj tasme startowa: " << endl;
+            string tasma;
+            cin >> tasma;
+            cin.ignore();
+            maszyna.ustawTasme (tasma);
+        }
+
+
+        while (true) {
+            getline (cin, regula);
+            if (regula == "START") break;
+
+            istringstream inputStream (regula);
+
+            { // dodanie reguly
+                RegulaPrzejscia nowaRegula;
+
+                getline (inputStream, nowaRegula.aktualnyStan, ' ');
+                inputStream >> nowaRegula.aktualnySymbol;
+                inputStream.ignore();
+                getline (inputStream, smietnik, ' ');
+                getline (inputStream, nowaRegula.nastepnyStan, ' ');
+                inputStream >> nowaRegula.nowySymbol;
+                inputStream.ignore();
+                inputStream >> nowaRegula.kierunekPrzejscia;
+                inputStream.ignore();
+
+                maszyna.dodajRegule (nowaRegula);
+            }
+
+
+        }
+
+        cout << maszyna;
+        maszyna.wyswietl(2);
+
+    }
+    else if (wybor == 2) {
+
+    }
+    else {
+        cerr << "niepoprawny znak wyboru" << endl;
+    }
 
 
     return 0;
