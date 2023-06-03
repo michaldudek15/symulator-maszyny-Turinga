@@ -12,7 +12,19 @@ void wyczyscKonsole () {
     #endif
 }
 
-void MaszynaTuringa::wyswietl(int indeks, string aktualnyStan, char aktualnySymbol) {
+void zasnij (int czas) {
+    #if __linux__
+        sleep(czas/1000);
+    #elif _WIN32
+        Sleep(czas);
+    #elif __APPLE__
+        this_thread::sleep_for(chrono::milliseconds(czas));
+    #else
+        cout << "nie rozpoznano systemu operacyjnego" << endl;
+    #endif
+}
+
+void MaszynaTuringa::wyswietl(int indeks, const string aktualnyStan, char aktualnySymbol) {
 
     system("clear");
     string doZapisu = aktualnyStan;
@@ -94,7 +106,7 @@ void MaszynaTuringa::uruchom() {
         if (aktualnaRegula != nullptr) {
 
             wyswietl(glowica, aktualnyStan, tasma[glowica]);
-            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+            zasnij(500);
 
             aktualnyStan = aktualnaRegula->nastepnyStan;
             tasma[glowica] = aktualnaRegula->nowySymbol;
@@ -131,17 +143,17 @@ void MaszynaTuringa::uruchom() {
     }
 
     wyswietl(glowica, aktualnyStan, tasma[glowica]);
-    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    zasnij(500);
     cout << endl;
 
 }
 
-void MaszynaTuringa::zapiszDoHistorii(string doZapisu) {
+void MaszynaTuringa::zapiszDoHistorii(const string& doZapisu) {
     historia += doZapisu;
     historia += "\n";
 }
 
-void MaszynaTuringa::zapiszOutputDoPliku(string sciezka) {
+void MaszynaTuringa::zapiszOutputDoPliku(const string& sciezka) {
     fstream plik;
     plik.open(sciezka, ios::out);
     if (!plik) {

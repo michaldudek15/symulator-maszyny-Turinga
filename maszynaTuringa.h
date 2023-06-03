@@ -6,6 +6,10 @@
 #include <thread>
 #include <cstdlib>
 
+#if _WIN32
+    #include <windows.h>
+#endif
+
 using namespace std;
 
 const string red = "\033[31m";
@@ -22,6 +26,7 @@ const string resetBold = "\033[22m";
 const string resetColor = "\033[0;0m";
 
 void wyczyscKonsole();
+void zasnij(int czas);
 
 struct RegulaPrzejscia {
     string aktualnyStan;
@@ -44,8 +49,8 @@ public:
     void wyswietl (int indeks, string aktualnyStan, char aktualnySymbol);
     void zaladujReguly (istringstream &inputStream);
     void uruchom ();
-    void zapiszDoHistorii (string doZapisu);
-    void zapiszOutputDoPliku (string sciezka);
+    void zapiszDoHistorii (const string& doZapisu);
+    void zapiszOutputDoPliku (const string& sciezka);
 
     void ustawTasme (const string& tasmaPoczatkowa);
     void dodajRegule (const RegulaPrzejscia& regula);
