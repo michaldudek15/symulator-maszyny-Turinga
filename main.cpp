@@ -65,8 +65,9 @@ int main() {
 
         }
 
+        system("clear");
+        cout << "wczytana maszyna: " << endl;
         cout << maszyna;
-        maszyna.wyswietl(2);
 
     }
     else if (wybor == 2) {
@@ -76,6 +77,8 @@ int main() {
         cerr << "niepoprawny znak wyboru" << endl;
     }
 
+    maszyna.uruchom();
+    cout << maszyna;
 
     return 0;
 }

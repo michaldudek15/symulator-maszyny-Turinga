@@ -1,5 +1,60 @@
 #include "maszynaTuringa.h"
 
+void MaszynaTuringa::uruchom() {
+    if (tasma.empty()) {
+        cerr << "tasma jest pusta" << endl;
+        return;
+    }
+
+    cout << "tasma poczatkowa: " << tasma << endl;
+
+    while (aktualnyStan != "STOP") {
+        RegulaPrzejscia* aktualnaRegula = nullptr;
+
+        for (auto& regula : reguly) {
+            if (regula.aktualnyStan == aktualnyStan && regula.aktualnySymbol == tasma[glowica]) {
+            aktualnaRegula = &regula;
+            break;
+            }
+        }
+
+        if (aktualnaRegula != nullptr) {
+            aktualnyStan = aktualnaRegula->nastepnyStan;
+            tasma[glowica] = aktualnaRegula->nowySymbol;
+
+            if (aktualnaRegula->kierunekPrzejscia == 'R') {
+                glowica++;
+            }
+            else if (aktualnaRegula->kierunekPrzejscia == 'L') {
+                glowica--;
+            }
+            else if (aktualnaRegula->kierunekPrzejscia == 'S') {
+                ;
+            }
+            else {
+                cerr << "blad w przejsciach" << endl;
+                break;
+            }
+
+            if (glowica < 0) {
+                tasma = "." + tasma;
+                glowica = 0;
+            }
+            else if (glowica >= tasma.length()) {
+                tasma = tasma + ".";
+            }
+
+        }
+        else {
+            cerr << "koniec dzialania maszyny" << endl;
+            break;
+        }
+
+        cout << "aktualna tasma: " << tasma << endl;
+        }
+
+}
+
 void MaszynaTuringa::ustawTasme(const string& tasmaPoczatkowa) {
     tasma = tasmaPoczatkowa;
 }
