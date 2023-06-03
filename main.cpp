@@ -27,11 +27,11 @@ int main() {
 
     // inicjalizacja maszyny
     MaszynaTuringa maszyna;
-    string regula, smietnik;
+    string regula;
 
     if (wybor == 1) {
 
-        { // ustawienie tasmy poczatkowej
+        { // ustawienie tasmy poczatkowej z konsoli
             cout << "podaj tasme startowa: " << endl;
             string tasma;
             cin >> tasma;
@@ -39,45 +39,46 @@ int main() {
             maszyna.ustawTasme (tasma);
         }
 
-
-        while (true) {
+        while (true) { // wczytanie kolejnych regul z konsoli
             getline (cin, regula);
             if (regula == "START") break;
-
             istringstream inputStream (regula);
-
-            { // dodanie reguly
-                RegulaPrzejscia nowaRegula;
-
-                getline (inputStream, nowaRegula.aktualnyStan, ' ');
-                inputStream >> nowaRegula.aktualnySymbol;
-                inputStream.ignore();
-                getline (inputStream, smietnik, ' ');
-                getline (inputStream, nowaRegula.nastepnyStan, ' ');
-                inputStream >> nowaRegula.nowySymbol;
-                inputStream.ignore();
-                inputStream >> nowaRegula.kierunekPrzejscia;
-                inputStream.ignore();
-
-                maszyna.dodajRegule (nowaRegula);
-            }
-
-
+            maszyna.zaladujReguly(inputStream);
         }
-
-        system("clear");
-        cout << "wczytana maszyna: " << endl;
-        cout << maszyna;
 
     }
     else if (wybor == 2) {
+        string sciezka;
+        cin >> sciezka;
+
+        ifstream plik(sciezka);
+
+        if (plik.is_open()) {
+
+            { // wczytanie tasmy poczatkowej z pliku
+                string tasma;
+                getline (plik, tasma);
+                maszyna.ustawTasme(tasma);
+            }
+
+
+            while (getline (plik, regula)) { // wczytanie kolejnych regul z pliku
+                istringstream inputStream(regula);
+                maszyna.zaladujReguly(inputStream);
+            }
+        }
 
     }
     else {
         cerr << "niepoprawny znak wyboru" << endl;
     }
 
+    system("clear");
+    cout << "wczytana maszyna: " << endl;
+    cout << maszyna;
+
     maszyna.uruchom();
+    cout << "stan maszyny po zadzialaniu: " << endl;
     cout << maszyna;
 
     return 0;
