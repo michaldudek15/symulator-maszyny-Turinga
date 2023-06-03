@@ -1,5 +1,21 @@
 #include "maszynaTuringa.h"
 
+void MaszynaTuringa::zaladujReguly(istringstream &inputStream) {
+    RegulaPrzejscia nowaRegula;
+    string smietnik;
+    getline (inputStream, nowaRegula.aktualnyStan, ' ');
+    inputStream >> nowaRegula.aktualnySymbol;
+    inputStream.ignore();
+    getline (inputStream, smietnik, ' ');
+    getline (inputStream, nowaRegula.nastepnyStan, ' ');
+    inputStream >> nowaRegula.nowySymbol;
+    inputStream.ignore();
+    inputStream >> nowaRegula.kierunekPrzejscia;
+    inputStream.ignore();
+    dodajRegule (nowaRegula);
+
+}
+
 void MaszynaTuringa::uruchom() {
     if (tasma.empty()) {
         cerr << "tasma jest pusta" << endl;
@@ -13,8 +29,8 @@ void MaszynaTuringa::uruchom() {
 
         for (auto& regula : reguly) {
             if (regula.aktualnyStan == aktualnyStan && regula.aktualnySymbol == tasma[glowica]) {
-            aktualnaRegula = &regula;
-            break;
+                aktualnaRegula = &regula;
+                break;
             }
         }
 
@@ -51,7 +67,7 @@ void MaszynaTuringa::uruchom() {
         }
 
         cout << "aktualna tasma: " << tasma << endl;
-        }
+    }
 
 }
 

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
+#include <fstream>
 
 using namespace std;
 
@@ -22,6 +23,7 @@ private:
 
 public:
     void wyswietl (int indeks);
+    void zaladujReguly (istringstream &inputStream);
     void uruchom ();
     void zapiszInputDoPliku ();
     void zapiszOutputDoPliku ();
@@ -30,5 +32,5 @@ public:
     void dodajRegule (const RegulaPrzejscia& regula);
 
     MaszynaTuringa();
-    friend std::ostream& operator<<(std::ostream& os, const MaszynaTuringa& maszyna);
+    friend std::ostream& operator << (std::ostream& os, const MaszynaTuringa& maszyna);
 };
