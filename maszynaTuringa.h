@@ -8,6 +8,8 @@
 
 using namespace std;
 
+void wyczyscKonsole();
+
 struct RegulaPrzejscia {
     string aktualnyStan;
     char aktualnySymbol;

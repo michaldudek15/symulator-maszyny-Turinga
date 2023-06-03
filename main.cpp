@@ -4,22 +4,8 @@
 
 int main() {
 
-#if __linux__
-    cout << "wykryty system operacyjny: linux" << endl;
-    const string systemOperacyjny = "linux";
-#elif _WIN32
-    cout << "wykryty system operacyjny: windows" << endl;
-    const string systemOperacyjny = "windows";
-#elif __APPLE__
-    cout << "wykryty system operacyjny: macos" << endl;
-    const string systemOperacyjny = "macos";
-#else
-    cout << "nie rozpoznano systemu operacyjnego" << endl;
-    const string systemOperacyjny = "nieznany";
-#endif
-
     powrot:
-    system("clear");
+    wyczyscKonsole();
     cout<< "[1] wczytaj dane z wejscia konsolowego \n"
         << "[2] wczytaj dane z pliku \n";
 
@@ -81,7 +67,7 @@ int main() {
         cerr << "niepoprawny znak wyboru" << endl;
     }
 
-    system("clear");
+    wyczyscKonsole();
     cout << "wczytana maszyna:\n" << endl;
     cout << maszyna;
 
@@ -92,7 +78,7 @@ int main() {
         maszyna.uruchom();
     }
     else if (wybor == 2) {
-        system("clear");
+        wyczyscKonsole();
         goto powrot;
     }
     else if (wybor == 3) {
@@ -106,7 +92,7 @@ int main() {
     cin >> wybor;
 
     if (wybor == 1) {
-        system("clear");
+        wyczyscKonsole();
         maszyna.getHistoria();
     }
 

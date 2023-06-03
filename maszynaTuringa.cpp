@@ -1,6 +1,19 @@
 #include "maszynaTuringa.h"
 
+void wyczyscKonsole () {
+    #if __linux__
+        system("clear");
+    #elif _WIN32
+        system("cls");
+    #elif __APPLE__
+        system("clear");
+    #else
+        cout << "nie rozpoznano systemu operacyjnego" << endl;
+    #endif
+}
+
 void MaszynaTuringa::wyswietl(int indeks, string aktualnyStan, char aktualnySymbol) {
+
     system("clear");
     string doZapisu = aktualnyStan;
     doZapisu += "\t";
@@ -13,7 +26,9 @@ void MaszynaTuringa::wyswietl(int indeks, string aktualnyStan, char aktualnySymb
             doZapisu += "[";
             doZapisu += tasma[i];
             doZapisu += "]";
-        } else {
+        }
+
+        else {
             printf(" %c ", tasma[i]);
             cout.flush();
 
