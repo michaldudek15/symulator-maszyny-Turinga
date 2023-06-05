@@ -5,7 +5,6 @@ void wyczyscKonsole () {
         system("clear");
     #elif _WIN32
         system("cls");
-
     #elif __APPLE__
         system("clear");
     #else
@@ -31,6 +30,7 @@ void MaszynaTuringa::wyswietl(int indeks, const string aktualnyStan, char aktual
     wyczyscKonsole();
     string doZapisu = aktualnyStan;
     doZapisu += "\t";
+
     for (int i = 0; i < tasma.length(); i++) {
 
         if (i == indeks) {
@@ -68,7 +68,6 @@ void MaszynaTuringa::wyswietl(int indeks, const string aktualnyStan, char aktual
             cout.flush();
         }
     }
-
 }
 
 void MaszynaTuringa::zaladujReguly(istringstream &inputStream) {
@@ -84,7 +83,6 @@ void MaszynaTuringa::zaladujReguly(istringstream &inputStream) {
     inputStream >> nowaRegula.kierunekPrzejscia;
     inputStream.ignore();
     dodajRegule (nowaRegula);
-
 }
 
 void MaszynaTuringa::uruchom() {
@@ -98,6 +96,7 @@ void MaszynaTuringa::uruchom() {
     while (aktualnyStan != "STOP") {
         RegulaPrzejscia* aktualnaRegula = nullptr;
 
+        // znalezienie odpowiedniej reguly
         for (auto& regula : reguly) {
             if (regula.aktualnyStan == aktualnyStan && regula.aktualnySymbol == tasma[glowica]) {
                 aktualnaRegula = &regula;
@@ -113,6 +112,7 @@ void MaszynaTuringa::uruchom() {
             aktualnyStan = aktualnaRegula->nastepnyStan;
             tasma[glowica] = aktualnaRegula->nowySymbol;
 
+            // ruch glowicy
             if (aktualnaRegula->kierunekPrzejscia == 'R') {
                 glowica++;
             }
@@ -123,10 +123,11 @@ void MaszynaTuringa::uruchom() {
                 ;
             }
             else {
-                cerr << "blad w przejsciach" << endl;
+                cerr << "blad w ruchu glowicy" << endl;
                 break;
             }
 
+            // przypadek wyjscia poza aktualna tasme
             if (glowica < 0) {
                 tasma = "." + tasma;
                 glowica = 0;
@@ -137,7 +138,7 @@ void MaszynaTuringa::uruchom() {
 
         }
         else {
-            cerr << "koniec dzialania maszyny" << endl;
+            cout << "koniec dzialania maszyny" << endl;
             break;
         }
 
@@ -167,12 +168,18 @@ void MaszynaTuringa::zapiszOutputDoPliku(const string& sciezka) {
     }
 }
 
-void MaszynaTuringa::ustawTasme(const string& tasmaPoczatkowa) {
+void MaszynaTuringa::ustawTasme (const string& tasmaPoczatkowa) {
     tasma = tasmaPoczatkowa;
 }
 
 void MaszynaTuringa::dodajRegule (const RegulaPrzejscia& regula) {
     reguly.push_back(regula);
+}
+
+void MaszynaTuringa::zresetujMaszyne() {
+    glowica = 0;
+    aktualnyStan = "q0";
+    historia.clear();
 }
 
 string MaszynaTuringa::getHistoria() {

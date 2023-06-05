@@ -4,18 +4,21 @@
 
 int main() {
 
-    powrot:
     wyczyscKonsole();
 
     cout << magenta << bold;
-    cout << "Witaj w symulatorze maszyny Turinga! \n";
+    cout << "witaj w symulatorze maszyny Turinga!\n";
     cout << resetColor;
+
+    poczatek:
     cout << green;
-    cout << "wybierz opcje wczytania danych do maszyny: \n";
+    cout << "wybierz opcje wczytania danych do maszyny:\n\n";
     cout << resetColor;
     cout << blue;
     cout<< "[1] wczytaj dane z wejscia konsolowego \n"
-        << "[2] wczytaj dane z pliku \n";
+        << "[2] wczytaj dane z pliku \n"
+        << "[3] wyjdz z programu \n";
+
     cout << resetColor;
 
     // wybor opcji wczytania danych
@@ -86,10 +89,11 @@ int main() {
         }
 
     }
-    else {
-        cerr << "niepoprawny znak wyboru" << endl;
-    }
+    else if (wybor == 3) return 0;
 
+    else cerr << "niepoprawny znak wyboru" << endl;
+
+    start:
     wyczyscKonsole();
     cout << green;
     cout << "wczytana maszyna:\n" << endl;
@@ -98,30 +102,45 @@ int main() {
     cout << maszyna;
     cout << resetColor;
 
+
     cout << green;
     cout << "\nczy uruchomic wczytana maszyne?\n";
     cout << resetColor;
     cout << blue;
-    cout << "[1] tak" << endl << "[2] nie, wczytaj jeszcze raz" << endl << "[3] wyjscie z programu" << endl;
+    cout << "[1] tak" <<
+    endl << "[2] nie, wczytaj jeszcze raz" <<
+    endl << "[3] zmien tasme startowa" <<
+    endl << "[4] wyjscie z programu" << endl;
     cout << resetColor;
     cin >> wybor;
 
-    if (wybor == 1) {
-        maszyna.uruchom();
-    }
+    if (wybor == 1) maszyna.uruchom();
+
     else if (wybor == 2) {
         wyczyscKonsole();
-        goto powrot;
-    }
-    else if (wybor == 3) {
-        return 0;
-    }
-    else {
-        cerr << "niepoprawny wybor" << endl;
+        goto poczatek;
     }
 
+    else if (wybor == 3) {
+        string nowaTasma;
+        cout << "podaj tasme startowa: ";
+        cin >> nowaTasma;
+        maszyna.ustawTasme(nowaTasma);
+        maszyna.zresetujMaszyne();
+        goto start;
+    }
+
+    else if (wybor == 4) return 0;
+
+    else cerr << "niepoprawny wybor" << endl;
+
+
     cout << blue;
-    cout << "[1] wyswietl historie w konsoli" << endl << "[2] zapisz historie do pliku" << endl << "[3] wyjdz z programu" << endl;
+    cout << "[1] wyswietl historie w konsoli" <<
+    endl << "[2] zapisz historie do pliku" <<
+    endl << "[3] uruchom te sama maszyne ponownie z inna tasma startowa" <<
+    endl << "[4] uruchom ponownie program" <<
+    endl << "[5] wyjdz z programu" << endl;
     cout << resetColor;
 
     cin >> wybor;
@@ -141,12 +160,22 @@ int main() {
     }
 
     else if (wybor == 3) {
-        return 0;
+        string nowaTasma;
+        cout << "podaj tasme startowa: ";
+        cin >> nowaTasma;
+        maszyna.ustawTasme(nowaTasma);
+        maszyna.zresetujMaszyne();
+        goto start;
     }
 
-    else {
-        cerr << "niepoprawny wybor" << endl;
+    else if (wybor == 4) {
+        wyczyscKonsole();
+        goto poczatek;
     }
+
+    else if (wybor == 5) return 0;
+
+    else cerr << "niepoprawny wybor" << endl;
 
     return 0;
 }
