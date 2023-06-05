@@ -1,5 +1,4 @@
 # SYMULATOR MASZYNY TURINGA
-## Wprowadzenie do Programowania – projekt 
 #### Michał Dudek, Maja Flaczek
 
 Projekt realizuje symulację **Maszyny Turinga** w języku C++ w standardzie C++11.
