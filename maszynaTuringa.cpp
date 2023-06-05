@@ -1,5 +1,6 @@
 #include "maszynaTuringa.h"
 
+// zaleznie od wykrytego systemu operacyjnego wywoluje funkcje czyszczaca konsole
 void wyczyscKonsole () {
     #if __linux__
         system("clear");
@@ -12,6 +13,7 @@ void wyczyscKonsole () {
     #endif
 }
 
+// zaleznie od wykrytego systemu operacyjnego wywoluje funkcje wstrzymujaca program na podany okres
 void zasnij (int czas) {
     #if __linux__
         //usleep(czas);
@@ -25,6 +27,7 @@ void zasnij (int czas) {
     #endif
 }
 
+// procedura umozliwiajaca wyswietlenie aktualnej tasmy z glowica oraz aktualnie realizowanej reguly
 void MaszynaTuringa::wyswietl(int indeks, const string aktualnyStan, char aktualnySymbol) {
 
     wyczyscKonsole();
@@ -70,13 +73,14 @@ void MaszynaTuringa::wyswietl(int indeks, const string aktualnyStan, char aktual
     }
 }
 
+// procedura wczytujaca podane reguly do struktury z wykorzystaniem strumienia istringstream
 void MaszynaTuringa::zaladujReguly(istringstream &inputStream) {
     RegulaPrzejscia nowaRegula;
     string smietnik;
     getline (inputStream, nowaRegula.aktualnyStan, ' ');
     inputStream >> nowaRegula.aktualnySymbol;
     inputStream.ignore();
-    getline (inputStream, smietnik, ' ');
+    getline (inputStream, smietnik, ' '); // do smietnika wrzucam czesc lini z symbolem strzalki '->'
     getline (inputStream, nowaRegula.nastepnyStan, ' ');
     inputStream >> nowaRegula.nowySymbol;
     inputStream.ignore();
@@ -85,6 +89,7 @@ void MaszynaTuringa::zaladujReguly(istringstream &inputStream) {
     dodajRegule (nowaRegula);
 }
 
+// glowna procedura odpowiedzialna za poruszanie glowicy oraz zmiane stanow maszyny
 void MaszynaTuringa::uruchom() {
     if (tasma.empty()) {
         cerr << "tasma jest pusta" << endl;
@@ -150,11 +155,13 @@ void MaszynaTuringa::uruchom() {
 
 }
 
+// procedura aktualizujaca zmienna historia w ktorej pamietane sa wszystkie przejscia maszyny
 void MaszynaTuringa::zapiszDoHistorii(const string& doZapisu) {
     historia += doZapisu;
     historia += "\n";
 }
 
+// procedura tworzaca plik i zapisujaca do niego historie przejsc maszyny
 void MaszynaTuringa::zapiszOutputDoPliku(const string& sciezka) {
     fstream plik;
     plik.open(sciezka, ios::out);
@@ -168,24 +175,29 @@ void MaszynaTuringa::zapiszOutputDoPliku(const string& sciezka) {
     }
 }
 
+// procedura inicjalizujaca tasme
 void MaszynaTuringa::ustawTasme (const string& tasmaPoczatkowa) {
     tasma = tasmaPoczatkowa;
 }
 
+// procedura dodajaca regule
 void MaszynaTuringa::dodajRegule (const RegulaPrzejscia& regula) {
     reguly.push_back(regula);
 }
 
+// procedura przygotowujaca maszyne do wczytania nastepnych danych
 void MaszynaTuringa::zresetujMaszyne() {
     glowica = 0;
     aktualnyStan = "q0";
     historia.clear();
 }
 
+// getter zmiennej historia
 string MaszynaTuringa::getHistoria() {
     return historia;
 }
 
+// konstruktor
 MaszynaTuringa::MaszynaTuringa() {
     glowica = 0;
     aktualnyStan = "q0";
@@ -193,6 +205,7 @@ MaszynaTuringa::MaszynaTuringa() {
     historia.clear();
 }
 
+// przeciazenie operatora <<, aby umozliwil wyswietlanie elementow klasy MaszynaTuringa
 ostream& operator << (ostream& os, const MaszynaTuringa& maszyna) {
     os << "tasma: " << maszyna.tasma << endl;
     for (const auto& regula : maszyna.reguly) {
